@@ -1,0 +1,64 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains IDE
+.idea/
+
+# Logs
+*.log
+logs/
+
+# GraphQL schema artifacts (if generated)
+*.graphql-schema.json
+*.graphql-schema.graphql
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+# Uncomment if you don’t commit package references
+# *.lock.json
+
+# Dependency caches
+project.lock.json
+artifacts/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# DotCover
+*.dotCover
+
+# Tye (if used for microservices orchestration)
+.tye/
+
+# Environment & secrets
+.env
+.env.*
+secrets.json
+appsettings.Development.json
+
+# EF Core Migrations (optional: keep if you want version control)
+# Migrations/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Test results
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Others
+node_modules/   # if you use GraphQL Playground or UI with npm

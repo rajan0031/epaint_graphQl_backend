@@ -7,6 +7,9 @@ using MyGraphqlApp.Query;
 using MyGraphqlApp.Mutation;
 using MyGraphqlApp.config;
 using MyGraphqlApp.Utils;
+using MyGraphqlApp.Validators.UserValidator;
+using MyGraphqlApp.Exception.GlobalException;
+
 
 
 
@@ -40,7 +43,8 @@ builder.Services.AddScoped<UserMutation>();
 
 
 // middlewares and jwtutils
-builder.Services.AddSingleton<JwtUtils>();
+builder.Services.AddScoped<JwtUtils>();
+builder.Services.AddScoped<UserValidator>();
 
 
 
@@ -63,6 +67,7 @@ app.MapGraphQL();
 
 // rest api map controller here 
 app.MapControllers();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 
 app.MapGet("/", () =>

@@ -11,8 +11,8 @@ using MyGraphqlApp.Data;
 namespace SimpleGraphqlCrud.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251209085540_InitialMigrate")]
-    partial class InitialMigrate
+    [Migration("20251209103304_initialmg")]
+    partial class initialmg
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

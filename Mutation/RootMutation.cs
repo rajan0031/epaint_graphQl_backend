@@ -1,4 +1,4 @@
-namespace MyGraphqlApp.Schema;
+namespace MyGraphqlApp.Mutation;
 
 public class RootMutation
 {

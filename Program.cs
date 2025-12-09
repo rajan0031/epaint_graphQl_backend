@@ -3,6 +3,10 @@ using MyGraphqlApp.Data;
 using MyGraphqlApp.Interface;
 using MyGraphqlApp.Schema;
 using MyGraphqlApp.Service;
+using MyGraphqlApp.Query;
+using MyGraphqlApp.Mutation;
+using MyGraphqlApp.config;
+using MyGraphqlApp.Utils;
 
 
 
@@ -15,16 +19,55 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 
+// start of the adding the controller rest apis 
+builder.Services.AddControllers();
+// builder.Services.AddScoped<UsersController>();
+// end of the adding rest apis here 
+
+
 builder.Services.AddScoped<IUserService, UserService>();
+
+
+
+// adding all the Query here 
+builder.Services.AddScoped<RootQuery>();
+builder.Services.AddScoped<UserQuery>();
+
+
+// add all the mutations here 
+builder.Services.AddScoped<RootMutation>();
+builder.Services.AddScoped<UserMutation>();
+
+
+// middlewares and jwtutils
+builder.Services.AddSingleton<JwtUtils>();
+
+
+
+
+
+
 
 
 builder.Services
     .AddGraphQLServer()
    .AddApplicationSchema();
 
-   
+SecurityConfig.AddCorsPolicy(builder.Services);
+
 var app = builder.Build();
 
+app.UseCors("FrontendPolicy");
+
 app.MapGraphQL();
+
+// rest api map controller here 
+app.MapControllers();
+
+
+app.MapGet("/", () =>
+{
+    return "Hello Rajan ! ";
+});
 
 app.Run();

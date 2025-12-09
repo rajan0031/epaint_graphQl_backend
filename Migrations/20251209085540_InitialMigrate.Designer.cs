@@ -11,7 +11,7 @@ using MyGraphqlApp.Data;
 namespace SimpleGraphqlCrud.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251201111545_InitialMigrate")]
+    [Migration("20251209085540_InitialMigrate")]
     partial class InitialMigrate
     {
         /// <inheritdoc />
@@ -40,7 +40,18 @@ namespace SimpleGraphqlCrud.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

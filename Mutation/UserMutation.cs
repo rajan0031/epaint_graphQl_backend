@@ -1,32 +1,37 @@
 using MyGraphqlApp.InputType;
 using MyGraphqlApp.Interface;
 using MyGraphqlApp.Model;
-// using HotChocolate.Types;
 
-namespace MyGraphqlApp.Schema;
+
+namespace MyGraphqlApp.Mutation;
 
 
 [ExtendObjectType(typeof(RootMutation))]
 public class UserMutation
 {
-    public async Task<User> CreateUser(
-        [Service] IUserService userService, 
-        CreateUserInput input)
+
+
+    private readonly IUserService userServices;
+
+    public UserMutation(IUserService userService)
     {
-        return await userService.CreateUserAsync(input.Name, input.Email, input.Role);
+        this.userServices = userService;
     }
 
-    public async Task<User?> UpdateUser(
-        [Service] IUserService userService, 
-        UpdateUserInput input)
+
+    public async Task<User> CreateUser(CreateUserInput input)
     {
-        return await userService.UpdateUserAsync(input.Id, input.Name, input.Email, input.Role);
+        return await userServices.CreateUserAsync(input.Name, input.UserName, input.Email, input.PhoneNumber, input.Password, input.Role);
     }
 
-    public async Task<bool> DeleteUser(
-        [Service] IUserService userService, 
-        int id)
+    public async Task<User?> UpdateUser(UpdateUserInput input)
     {
-        return await userService.DeleteUserAsync(id);
+        Console.WriteLine("Update mutations is called here ");
+        return await userServices.UpdateUserAsync(input.Id, input.Name, input.UserName, input.Email, input.PhoneNumber,input.Role);
+    }
+
+    public async Task<bool> DeleteUser(int id)
+    {
+        return await userServices.DeleteUserAsync(id);
     }
 }

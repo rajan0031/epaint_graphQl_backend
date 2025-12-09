@@ -1,12 +1,14 @@
 using HotChocolate.Execution.Configuration;
 using MyGraphqlApp.Query;
 using MyGraphqlApp.Type;
+using MyGraphqlApp.Mutation;
+using MyGraphqlApp.Model;
 
 namespace MyGraphqlApp.Schema;
 
 public static class RootSchema
 {
-   
+
     public static IRequestExecutorBuilder AddApplicationSchema(this IRequestExecutorBuilder builder)
     {
         return builder
@@ -14,10 +16,11 @@ public static class RootSchema
             .AddQueryType<RootQuery>()
             .AddTypeExtension<UserQuery>()
 
-          
-            .AddMutationType<RootMutation>()       
-            .AddTypeExtension<UserMutation>()      
 
-            .AddType<UserType>();
+
+            .AddMutationType<RootMutation>()
+            .AddTypeExtension<UserMutation>();
+
+        // .AddType<UserType>();
     }
 }

@@ -4,8 +4,10 @@ namespace MyGraphqlApp.Interface;
 
 public interface IUserService
 {
-    IQueryable<User> GetAllUsers();
-    Task<User> CreateUserAsync(string name, string email, string role);
-    Task<User?> UpdateUserAsync(int id, string? name, string? email, string? role);
+    List<User> GetAllUsers();
+    Task<User> CreateUserAsync(string name, string userName, string email,string PhoneNumber,string Password, int role);
+    Task<User?> UpdateUserAsync(int id, string? name,string userName, string? email, string PhoneNumber, int role);
     Task<bool> DeleteUserAsync(int id);
+
+    public Task<User> getUserById(int id);
 }

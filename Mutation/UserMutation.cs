@@ -1,3 +1,4 @@
+using MyGraphqlApp.dtos;
 using MyGraphqlApp.InputType;
 using MyGraphqlApp.Interface;
 using MyGraphqlApp.Model;
@@ -27,11 +28,20 @@ public class UserMutation
     public async Task<User?> UpdateUser(UpdateUserInput input)
     {
         Console.WriteLine("Update mutations is called here ");
-        return await userServices.UpdateUserAsync(input.Id, input.Name, input.UserName, input.Email, input.PhoneNumber,input.Role);
+        return await userServices.UpdateUserAsync(input.Id, input.Name, input.UserName, input.Email, input.PhoneNumber, input.Role);
     }
 
     public async Task<bool> DeleteUser(int id)
     {
         return await userServices.DeleteUserAsync(id);
     }
+
+    public async Task<UserDto.LoginResponse> loginUser(loginInput loginInput)
+    {
+        var loginInputObj = new UserDto.loginDto();
+        loginInputObj.email = loginInput.email;
+        loginInputObj.password = loginInput.password;
+        return await userServices.loginUser(loginInputObj);
+    }
+
 }

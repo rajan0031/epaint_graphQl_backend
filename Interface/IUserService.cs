@@ -1,5 +1,6 @@
 using MyGraphqlApp.Model;
 using MyGraphqlApp.dtos;
+// using  MyGraphqlApp.dtos.UserDto;
 namespace MyGraphqlApp.Interface;
 
 public interface IUserService
@@ -11,5 +12,5 @@ public interface IUserService
 
     public Task<User> getUserById(int id);
 
-    public Task<dynamic> loginUser(UserDto.loginDto loginDto);
+    public Task<UserDto.LoginResponse> loginUser(UserDto.loginDto loginDto);
 }

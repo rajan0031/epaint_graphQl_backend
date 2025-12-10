@@ -10,13 +10,15 @@ namespace MyGraphqlApp.Model
 
         public string Email { get; set; } = string.Empty;
 
-        public string Password { get; set; } = string.Empty;
+        public string? Password { get; set; }
 
-        public string PhoneNumber { get; set; } = string.Empty;
+        public string ? PhoneNumber { get; set; }
 
 
 
         public int Role { get; set; }
+
+        public int LoginFlag { get; set; }
 
     }
 }

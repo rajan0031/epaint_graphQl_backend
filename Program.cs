@@ -8,7 +8,8 @@ using MyGraphqlApp.Mutation;
 using MyGraphqlApp.config;
 using MyGraphqlApp.Utils;
 using MyGraphqlApp.Validators.UserValidator;
-using MyGraphqlApp.Exception.GlobalException;
+using MyGraphqlApp.Service.PainterService;
+using MyGraphqlApp.Interface.IpaintService;
 
 
 
@@ -29,6 +30,7 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IpaintService, PainterService>();
 
 
 

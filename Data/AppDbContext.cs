@@ -12,6 +12,8 @@ namespace MyGraphqlApp.Data
 
         public DbSet<User> Users { get; set; }
 
-       
+        public DbSet<Painter> Painters { get; set; }
+
+
     }
 }

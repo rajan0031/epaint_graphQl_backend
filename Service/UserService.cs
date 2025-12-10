@@ -74,10 +74,11 @@ namespace MyGraphqlApp.Service
 
             if (!userValidator.phoneNuberCheck(PhoneNumber))
             {
-                throw new UserException("Phone no is not correct...",System.Net.HttpStatusCode.BadRequest);
+                throw new UserException("Phone no is not correct...", System.Net.HttpStatusCode.BadRequest);
             }
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(Password);
+            user.LoginFlag = 1;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
@@ -139,24 +140,23 @@ namespace MyGraphqlApp.Service
             return result!;
         }
 
-        public async Task<dynamic> loginUser(UserDto.loginDto loginDto)
+        public async Task<UserDto.LoginResponse> loginUser(UserDto.loginDto loginDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.email);
             if (user == null)
             {
-                return new
-                {
-                    Message = "the email does not exist"
-                };
+                throw new UserException("user is not found", System.Net.HttpStatusCode.BadRequest);
             }
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(loginDto.password, user.Password);
             var result = _context.Users.FirstOrDefault(u => u.Email == loginDto.email && isPasswordValid);
             var token = _jwtUtils.GenerateToken(user.Email);
-            return new
-            {
-                user = user,
-                token = token
-            };
+
+            var responseObj = new UserDto.LoginResponse();
+            responseObj.User = user;
+            responseObj.Token = token;
+            responseObj.Message = "$ hey {user.name} , you are loggin successfully";
+            return responseObj;
+
 
         }
     }

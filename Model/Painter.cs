@@ -6,11 +6,13 @@ namespace MyGraphqlApp.Model
     public class Painter
     {
         public int Id { get; set; }
-
-        // Painter/Decorator’s name or business name
         public string Name { get; set; } = string.Empty;
 
+        public string UserName { get; set; } = string.Empty;
+
         public string Email { get; set; } = string.Empty;
+
+        public string? Password { get; set; }
 
         public string? PhoneNumber { get; set; }
 
@@ -18,7 +20,7 @@ namespace MyGraphqlApp.Model
 
         public string? City { get; set; }
 
-        // Array of service types (Painter, Decorator, Wallpaper Specialist, etc.)
+
         public List<string>? ServiceTypes { get; set; }
 
         public int ExperienceYears { get; set; }
@@ -28,11 +30,15 @@ namespace MyGraphqlApp.Model
         // Array of pin codes where this painter provides service
         public List<string>? PinCodes { get; set; }
 
+        // login for the first time flage 
+
+        // public int LoginFlag { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // One Painter can have many employees
-        public List<Employee>? Employees { get; set; }
+
+
     }
 }

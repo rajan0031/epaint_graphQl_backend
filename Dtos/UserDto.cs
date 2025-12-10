@@ -21,6 +21,14 @@ namespace MyGraphqlApp.dtos
         }
 
 
+        public class ChangePasswordDto
+        {
+            public int id { get; set; }
+            public string? password { get; set; }
+            public string? newPassword { get; set; }
+        }
+
+
     }
 
 }

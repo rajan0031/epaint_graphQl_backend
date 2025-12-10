@@ -28,11 +28,11 @@ namespace MyGraphqlApp.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
-           
-                var user = await _userService.getUserById(id);
-                return Ok(user);
-          
-           
+
+            var user = await _userService.getUserById(id);
+            return Ok(user);
+
+
         }
 
 
@@ -65,10 +65,18 @@ namespace MyGraphqlApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<dynamic> LoginUser(UserDto.loginDto loginDto)
+        public async Task<UserDto.LoginResponse> LoginUser(UserDto.loginDto loginDto)
         {
             var result = await _userService.loginUser(loginDto);
             return result;
         }
+
+
+        [HttpPost("changepassword")]
+        public string changePassword(UserDto.ChangePasswordDto changePasswordDto)
+        {
+            return _userService.changePassword(changePasswordDto);
+        }
     }
+
 }

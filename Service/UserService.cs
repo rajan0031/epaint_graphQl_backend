@@ -147,18 +147,63 @@ namespace MyGraphqlApp.Service
             {
                 throw new UserException("user is not found", System.Net.HttpStatusCode.BadRequest);
             }
+
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(loginDto.password, user.Password);
-            var result = _context.Users.FirstOrDefault(u => u.Email == loginDto.email && isPasswordValid);
+            _logger.LogInformation("the isPasswordValid" + isPasswordValid);
+            if (!isPasswordValid)
+            {
+                throw new UserException("Invalid Email or Password", System.Net.HttpStatusCode.BadRequest);
+            }
+            if (user.LoginFlag == 0)
+            {
+                var tempRes = new UserDto.LoginResponse();
+                tempRes.User = null;
+                tempRes.Token = null;
+                tempRes.Message = "login successfull , now kindly change your password";
+                return tempRes;
+            }
+            // var result = _context.Users.FirstOrDefault(u => u.Email == loginDto.email && isPasswordValid);
+
+            // await _context.SaveChangesAsync();
             var token = _jwtUtils.GenerateToken(user.Email);
 
             var responseObj = new UserDto.LoginResponse();
             responseObj.User = user;
             responseObj.Token = token;
-            responseObj.Message = "$ hey {user.name} , you are loggin successfully";
+            responseObj.Message = "login successfully";
             return responseObj;
 
 
         }
+
+        // change password api goes here 
+
+        public string changePassword(UserDto.ChangePasswordDto changePasswordDto)
+        {
+            var result = _context.Users.Find(changePasswordDto.id);
+            _logger.LogInformation("the user from the database is " + result);
+            if (result == null)
+            {
+                return "User is not found ";
+            }
+            var userHasedPassword = result.Password;
+            _logger.LogInformation(userHasedPassword);
+            _logger.LogInformation(" the password is " + changePasswordDto.password);
+            _logger.LogInformation(" the new  password is " + changePasswordDto.newPassword);
+
+            bool passwordChek = BCrypt.Net.BCrypt.Verify(changePasswordDto.password, userHasedPassword);
+            _logger.LogInformation("the password check is " + passwordChek);
+            if (!passwordChek)
+            {
+                return "Give your correct password";
+            }
+            result.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.newPassword);
+            result.LoginFlag = 1;
+            _context.SaveChanges();
+            return "the password is changed successfully";
+        }
+
+
     }
 
 }

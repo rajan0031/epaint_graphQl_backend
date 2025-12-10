@@ -60,7 +60,10 @@ namespace MyGraphqlApp.Service.PainterService
             // end of the validations logic 
 
             // painters table -- i am storning all the details in painters table 
-            painter.Password = BCrypt.Net.BCrypt.HashPassword(painter.Password);
+
+            // hash the password ones 
+            var hasedPassword = BCrypt.Net.BCrypt.HashPassword(painter.Password);
+            painter.Password = hasedPassword;
             var result1 = await _context.Painters.AddAsync(painter);
             await _context.SaveChangesAsync();
 
@@ -69,7 +72,7 @@ namespace MyGraphqlApp.Service.PainterService
             userObj.Name = painter.Name;
             userObj.UserName = painter.UserName;
             userObj.Email = painter.Email;
-            userObj.Password = BCrypt.Net.BCrypt.HashPassword(painter.Password);
+            userObj.Password = hasedPassword;
             userObj.PhoneNumber = painter.PhoneNumber;
             userObj.Role = 2;
             userObj.LoginFlag = 0;

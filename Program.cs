@@ -10,6 +10,7 @@ using MyGraphqlApp.Utils;
 using MyGraphqlApp.Validators.UserValidator;
 using MyGraphqlApp.Service.PainterService;
 using MyGraphqlApp.Interface.IpaintService;
+using MyGraphqlApp.Mutation.PainterMutation;
 
 
 
@@ -42,6 +43,8 @@ builder.Services.AddScoped<UserQuery>();
 // add all the mutations here 
 builder.Services.AddScoped<RootMutation>();
 builder.Services.AddScoped<UserMutation>();
+builder.Services.AddScoped<PainterMutation>();
+
 
 
 // middlewares and jwtutils
@@ -57,7 +60,8 @@ builder.Services.AddScoped<UserValidator>();
 
 builder.Services
     .AddGraphQLServer()
-   .AddApplicationSchema();
+    .AddApplicationSchema()
+    .AddErrorFilter<MyGraphqlApp.Exception.GraphqlException.GraphqlErrorFilter>();
 
 SecurityConfig.AddCorsPolicy(builder.Services);
 

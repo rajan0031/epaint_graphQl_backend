@@ -44,4 +44,17 @@ public class UserMutation
         return await userServices.loginUser(loginInputObj);
     }
 
+    // change the password for the painter , Employee for the first time 
+
+    public string changePassword(changePasswordInput changePasswordInput)
+    {
+        var changePasswordObj = new UserDto.ChangePasswordDto();
+        changePasswordObj.id = changePasswordInput.id;
+        changePasswordObj.password = changePasswordInput.password;
+        changePasswordObj.newPassword = changePasswordInput.newPassword;
+
+        return userServices.changePassword(changePasswordObj);
+
+    }
+
 }

@@ -3,6 +3,7 @@ using MyGraphqlApp.Query;
 using MyGraphqlApp.Type;
 using MyGraphqlApp.Mutation;
 using MyGraphqlApp.Model;
+using MyGraphqlApp.Mutation.PainterMutation;
 
 namespace MyGraphqlApp.Schema;
 
@@ -19,7 +20,8 @@ public static class RootSchema
 
 
             .AddMutationType<RootMutation>()
-            .AddTypeExtension<UserMutation>();
+            .AddTypeExtension<UserMutation>()
+            .AddTypeExtension<PainterMutation>();
 
         // .AddType<UserType>();
     }

@@ -12,8 +12,6 @@ using MyGraphqlApp.Exception.UserException;
 namespace MyGraphqlApp.Service
 {
 
-
-
     public class UserService : IUserService
     {
         private readonly AppDbContext _context;
@@ -180,6 +178,11 @@ namespace MyGraphqlApp.Service
 
         public string changePassword(UserDto.ChangePasswordDto changePasswordDto)
         {
+
+            if (changePasswordDto.password == changePasswordDto.newPassword)
+            {
+                return "Please use a different new password , not the previous one";
+            }
             var result = _context.Users.Find(changePasswordDto.id);
             _logger.LogInformation("the user from the database is " + result);
             if (result == null)

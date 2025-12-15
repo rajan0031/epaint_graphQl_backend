@@ -1,8 +1,6 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyGraphqlApp.Interface;
-using MyGraphqlApp.Interface.IpaintService;
 using MyGraphqlApp.Model;
 
 namespace MyGraphqlApp.Controllers.PainterController

@@ -1,3 +1,4 @@
+using HotChocolate.Authorization;
 using MyGraphqlApp.InputType.PainterInputs;
 using MyGraphqlApp.Interface.IpaintService;
 using MyGraphqlApp.Model;
@@ -16,7 +17,7 @@ namespace MyGraphqlApp.Mutation.PainterMutation
         {
             _ipaintService = ipaintService;
         }
-
+        [Authorize]
         public Task<Painter> RegisterPainter(createPainterInput createPainterInput)
         {
             var registerObj = new Painter();

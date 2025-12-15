@@ -1,6 +1,5 @@
 
-using Microsoft.EntityFrameworkCore;
-using MyGraphqlApp.Data;
+using DotNetEnv;
 
 namespace MyGraphqlApp.Db.DbConnections
 {
@@ -8,10 +7,12 @@ namespace MyGraphqlApp.Db.DbConnections
     public static class DbConnections
     {
 
+
+
         public static void AddDatabase(IServiceCollection services, IConfiguration configuration)
         {
-
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            Env.Load();
+            var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
             services.AddDbContext<AppDbContext>(options =>
            {
                options.UseSqlServer(connectionString);

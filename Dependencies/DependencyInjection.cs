@@ -1,5 +1,6 @@
 
 
+using HotChocolate.Authorization;
 
 namespace MyGraphqlApp.Dependencies
 {
@@ -9,6 +10,9 @@ namespace MyGraphqlApp.Dependencies
 
         public static void addDependencies(IServiceCollection services)
         {
+
+            // injecting the IhttpContextAceesor  in utils file , just to get the user details from the token 
+            services.AddHttpContextAccessor();
 
             // start of the adding the controller rest apis 
             services.AddControllers();
@@ -37,7 +41,11 @@ namespace MyGraphqlApp.Dependencies
 
             // adding all the graphql 
 
-            services.AddGraphQLServer()
+
+
+            services
+            .AddGraphQLServer()
+            .AddAuthorization()
             .AddApplicationSchema()
             .AddErrorFilter<MyGraphqlApp.Exception.GraphqlException.GraphqlErrorFilter>();
 

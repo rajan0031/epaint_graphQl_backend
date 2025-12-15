@@ -21,7 +21,11 @@ DependencyInjection.addDependencies(builder.Services);
 
 SecurityConfig.AddCorsPolicy(builder.Services);
 
-string ? secretKey=Environment.GetEnvironmentVariable("JWT_KEY");
+string? secretKey = Environment.GetEnvironmentVariable("JWT_KEY");
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new InvalidOperationException("Please make sure your env file have JWT_KEY  as a variable");
+}
 builder.Services.AddJwtAuthentication(secretKey!);
 
 var app = builder.Build();

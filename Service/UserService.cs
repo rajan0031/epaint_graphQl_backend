@@ -106,7 +106,7 @@ namespace MyGraphqlApp.Service
             if (!string.IsNullOrEmpty(phoneNumber))
                 user.PhoneNumber = phoneNumber;
 
-            if (role != null)
+            if (role > 0)
                 user.Role = role;
 
             await _context.SaveChangesAsync();
@@ -150,7 +150,7 @@ namespace MyGraphqlApp.Service
             _logger.LogInformation("the isPasswordValid" + isPasswordValid);
             if (!isPasswordValid)
             {
-                throw new UserException("Invalid Email or Password", System.Net.HttpStatusCode.BadRequest);
+                throw new UserException("Password is incorrect, give the correct password", System.Net.HttpStatusCode.BadRequest);
             }
             if (user.LoginFlag == 0)
             {
@@ -163,7 +163,7 @@ namespace MyGraphqlApp.Service
             // var result = _context.Users.FirstOrDefault(u => u.Email == loginDto.email && isPasswordValid);
 
             // await _context.SaveChangesAsync();
-            var token = _jwtUtils.GenerateToken(user.Email);
+            var token = _jwtUtils.GenerateToken(user);
 
             var responseObj = new UserDto.LoginResponse();
             responseObj.User = user;
@@ -182,6 +182,10 @@ namespace MyGraphqlApp.Service
             if (changePasswordDto.password == changePasswordDto.newPassword)
             {
                 return "Please use a different new password , not the previous one";
+            }
+            if (!userValidator.passwordCheck(changePasswordDto.newPassword!))
+            {
+                throw new UserException("password must be valid atleast 8 length , and must have @ , a-z , A-Z and @ # $ %");
             }
             var result = _context.Users.Find(changePasswordDto.id);
             _logger.LogInformation("the user from the database is " + result);

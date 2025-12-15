@@ -1,7 +1,9 @@
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyGraphqlApp.dtos;
-using MyGraphqlApp.Interface;
 using MyGraphqlApp.Model;
+using MyGraphqlApp.Utils;
 
 namespace MyGraphqlApp.Controllers
 {
@@ -10,21 +12,32 @@ namespace MyGraphqlApp.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly JwtUtils _jwtUtils;
 
-        public UsersController(IUserService userService)
+
+
+        public UsersController(IUserService userService, JwtUtils jwtUtils)
         {
             _userService = userService;
+            _jwtUtils = jwtUtils;
         }
 
-
+        [Authorize]
         [HttpGet("all")]
         public ActionResult<List<User>> GetAllUsers()
         {
+
+
+            var userDetails = _jwtUtils.ExtractLoggedInUserDetails();
+            // Console.WriteLine("get the user details", userDetails);
+            Console.WriteLine(userDetails.Id);
+            Console.WriteLine(userDetails.Name);
+            Console.WriteLine(userDetails.Role);
             var users = _userService.GetAllUsers();
             return Ok(users);
         }
 
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
@@ -43,6 +56,7 @@ namespace MyGraphqlApp.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] User user)
         {
@@ -53,7 +67,7 @@ namespace MyGraphqlApp.Controllers
             return Ok(updatedUser);
         }
 
-
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {

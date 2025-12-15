@@ -3,17 +3,29 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using DotNetEnv;
 
 namespace MyGraphqlApp.Utils
 {
+
     public class JwtUtils
     {
-        private const string SECRET_KEY = "mysecretkeymysecretkeymysecretkey"; // same as Java
+
+
+      
         private readonly SymmetricSecurityKey _signingKey;
+
+
+
+
 
         public JwtUtils()
         {
-            _signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
+            Env.Load();
+            string? secretKey = Environment.GetEnvironmentVariable("JWT_KEY");
+
+
+            _signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
         }
 
         // Generate JWT token with email as subject

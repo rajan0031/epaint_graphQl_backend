@@ -1,0 +1,16 @@
+global using Microsoft.EntityFrameworkCore;
+global using MyGraphqlApp.Data;
+global using MyGraphqlApp.Interface;
+global using MyGraphqlApp.Schema;
+global using MyGraphqlApp.Service;
+global using MyGraphqlApp.Query;
+global using MyGraphqlApp.Mutation;
+global using MyGraphqlApp.config;
+global using MyGraphqlApp.Utils;
+global using MyGraphqlApp.Validators.UserValidator;
+global using MyGraphqlApp.Service.PainterService;
+global using MyGraphqlApp.Interface.IpaintService;
+global using MyGraphqlApp.Mutation.PainterMutation;
+global using MyGraphqlApp.Db.DbConnections;
+global using MyGraphqlApp.Dependencies;
+global using DotNetEnv;

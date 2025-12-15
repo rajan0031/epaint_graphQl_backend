@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyGraphqlApp.Interface;
 using MyGraphqlApp.Interface.IpaintService;
@@ -22,7 +23,7 @@ namespace MyGraphqlApp.Controllers.PainterController
             _ipaintService = ipaintService;
         }
 
-
+        [Authorize]
         [HttpPost("register")]
         public Task<Painter> RegisterPainter([FromBody] Painter painter)
         {

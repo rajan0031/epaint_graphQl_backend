@@ -47,12 +47,12 @@ namespace MyGraphqlApp.Service.PainterService
             {
                 throw new UserException("Password must be at least 8 size ", System.Net.HttpStatusCode.BadRequest);
             }
-            if (!userValidator.passwordCheck(painter.Password))
+            if (!userValidator.passwordCheck(painter.Password!))
             {
                 throw new UserException("password is not valid , use a-z , A-Z , 0-9 , !,@,#,$,%", System.Net.HttpStatusCode.BadRequest);
             }
 
-            if (!userValidator.phoneNuberCheck(painter.PhoneNumber))
+            if (!userValidator.phoneNuberCheck(painter.PhoneNumber!))
             {
                 throw new UserException("Phone no is not correct...", System.Net.HttpStatusCode.BadRequest);
             }

@@ -1,73 +1,33 @@
-using Microsoft.EntityFrameworkCore;
-using MyGraphqlApp.Data;
-using MyGraphqlApp.Interface;
-using MyGraphqlApp.Schema;
-using MyGraphqlApp.Service;
-using MyGraphqlApp.Query;
-using MyGraphqlApp.Mutation;
-using MyGraphqlApp.config;
-using MyGraphqlApp.Utils;
-using MyGraphqlApp.Validators.UserValidator;
-using MyGraphqlApp.Service.PainterService;
-using MyGraphqlApp.Interface.IpaintService;
-using MyGraphqlApp.Mutation.PainterMutation;
-
-
-
-
 var builder = WebApplication.CreateBuilder(args);
 
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
-
-// start of the adding the controller rest apis 
-builder.Services.AddControllers();
-// builder.Services.AddScoped<UsersController>();
-// end of the adding rest apis here 
-
-
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IpaintService, PainterService>();
-
-
-
-// adding all the Query here 
-builder.Services.AddScoped<RootQuery>();
-builder.Services.AddScoped<UserQuery>();
-
-
-// add all the mutations here 
-builder.Services.AddScoped<RootMutation>();
-builder.Services.AddScoped<UserMutation>();
-builder.Services.AddScoped<PainterMutation>();
-
-
-
-// middlewares and jwtutils
-builder.Services.AddScoped<JwtUtils>();
-builder.Services.AddScoped<UserValidator>();
+Env.Load();
 
 
 
 
+// datanbas econnection 
+DbConnections.AddDatabase(builder.Services, builder.Configuration);
+
+
+// dependencies injections 
+DependencyInjection.addDependencies(builder.Services);
 
 
 
 
-builder.Services
-    .AddGraphQLServer()
-    .AddApplicationSchema()
-    .AddErrorFilter<MyGraphqlApp.Exception.GraphqlException.GraphqlErrorFilter>();
 
 SecurityConfig.AddCorsPolicy(builder.Services);
+
+string ? secretKey=Environment.GetEnvironmentVariable("JWT_KEY");
+builder.Services.AddJwtAuthentication(secretKey!);
 
 var app = builder.Build();
 
 app.UseCors("FrontendPolicy");
+
+// authorization and authentication goes here 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapGraphQL();
 

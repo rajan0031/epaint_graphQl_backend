@@ -1,6 +1,5 @@
 using MyGraphqlApp.dtos;
 using MyGraphqlApp.InputType;
-using MyGraphqlApp.Interface;
 using MyGraphqlApp.Model;
 
 
@@ -20,9 +19,9 @@ public class UserMutation
     }
 
 
-    public async Task<User> CreateUser(CreateUserInput input)
+    public async Task<UserDto.GetAllUserDto> CreateUser(CreateUserInput input)
     {
-        return await userServices.CreateUserAsync(input.Name, input.UserName, input.Email, input.PhoneNumber, input.Password, input.Role);
+        return await userServices.CreateUserAsync(input.Name, input.UserName, input.Email, input.Password, input.PhoneNumber, input.Role);
     }
 
     public async Task<User?> UpdateUser(UpdateUserInput input)

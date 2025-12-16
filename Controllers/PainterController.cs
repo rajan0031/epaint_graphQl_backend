@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyGraphqlApp.dtos.PainterDto;
 using MyGraphqlApp.Exception.UserException;
 using MyGraphqlApp.Model;
 
@@ -26,7 +27,7 @@ namespace MyGraphqlApp.Controllers.PainterController
 
         [Authorize]
         [HttpPost("register")]
-        public Task<Painter> RegisterPainter([FromBody] Painter painter)
+        public Task<PainterDto.PainterResponse> RegisterPainter([FromBody] Painter painter)
         {
             var userDetails = _jwtUtils.ExtractLoggedInUserDetails();
             if (userDetails.Role != 1)

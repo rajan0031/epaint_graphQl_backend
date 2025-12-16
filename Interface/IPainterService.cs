@@ -1,3 +1,4 @@
+using MyGraphqlApp.dtos.PainterDto;
 using MyGraphqlApp.Model;
 
 namespace MyGraphqlApp.Interface.IpaintService
@@ -5,7 +6,7 @@ namespace MyGraphqlApp.Interface.IpaintService
 
     public interface IpaintService
     {
-        public  Task<Painter> RegisterPainter(Painter painter);
+        public  Task<PainterDto.PainterResponse> RegisterPainter(Painter painter);
     }
 
 }

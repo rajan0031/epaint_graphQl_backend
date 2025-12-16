@@ -1,11 +1,8 @@
-using MyGraphqlApp.Data;
-using MyGraphqlApp.Interface;
+
 using MyGraphqlApp.Model;
 using MyGraphqlApp.dtos;
-using Microsoft.EntityFrameworkCore;
-using MyGraphqlApp.Utils;
-using MyGraphqlApp.Validators.UserValidator;
 using MyGraphqlApp.Exception.UserException;
+
 
 
 
@@ -34,13 +31,25 @@ namespace MyGraphqlApp.Service
         }
 
 
-        public List<User> GetAllUsers()
+        public List<UserDto.GetAllUserDto> GetAllUsers()
         {
-            return _context.Users.ToList();
+            var allUser = _context.Users.Select(u => new UserDto.GetAllUserDto
+            {
+                Id = u.Id,
+                Name = u.Name,
+                Email = u.Email,
+                PhoneNumber = u.PhoneNumber,
+                Role = u.Role
+            }).ToList();
+
+            return allUser;
         }
 
-        public async Task<User> CreateUserAsync(string name, string userName, string email, string Password, string PhoneNumber, int role)
+        public async Task<UserDto.GetAllUserDto> CreateUserAsync(string name, string userName, string email, string Password, string PhoneNumber, int role)
         {
+
+            Console.WriteLine($"Password received: '{Password}' Length: {Password.Length}");
+
             var user = new User { Name = name, UserName = userName, Email = email, Password = Password, PhoneNumber = PhoneNumber, Role = role };
 
             if (!userValidator.userNameCheck(userName))
@@ -79,7 +88,15 @@ namespace MyGraphqlApp.Service
             user.LoginFlag = 1;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            return user;
+            var responseObj = new UserDto.GetAllUserDto();
+            responseObj.Id = user.Id;
+            responseObj.Name = user.Name;
+            responseObj.UserName = user.UserName;
+            responseObj.Email = user.Email;
+            responseObj.PhoneNumber = user.PhoneNumber;
+            responseObj.Role = user.Role;
+
+            return responseObj;
         }
 
         public async Task<User?> UpdateUserAsync(
@@ -89,7 +106,7 @@ namespace MyGraphqlApp.Service
          string? email,
          string? phoneNumber,
          int role
-     )
+        )
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return null;

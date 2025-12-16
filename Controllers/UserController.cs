@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyGraphqlApp.dtos;
 using MyGraphqlApp.Model;
-using MyGraphqlApp.Utils;
+
+
 
 namespace MyGraphqlApp.Controllers
 {
@@ -24,7 +25,7 @@ namespace MyGraphqlApp.Controllers
 
         [Authorize]
         [HttpGet("all")]
-        public ActionResult<List<User>> GetAllUsers()
+        public ActionResult<List<UserDto.GetAllUserDto>> GetAllUsers()
         {
 
 
@@ -50,7 +51,7 @@ namespace MyGraphqlApp.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser([FromBody] User user)
+        public async Task<ActionResult<UserDto.GetAllUserDto>> CreateUser([FromBody] User user)
         {
             var createdUser = await _userService.CreateUserAsync(user.Name, user.UserName, user.Email, user.Password, user.PhoneNumber, user.Role);
             return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);

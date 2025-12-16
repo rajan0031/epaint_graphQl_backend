@@ -1,5 +1,5 @@
-
-using MyGraphqlApp.Interface;
+using HotChocolate.Authorization;
+using MyGraphqlApp.dtos;
 using MyGraphqlApp.Model;
 
 
@@ -17,7 +17,8 @@ public class UserQuery
     }
 
     [GraphQLName("getAllUser")]
-    public List<User> GetUsers()
+    [Authorize]
+    public List<UserDto.GetAllUserDto> GetUsers()
     {
         return userService.GetAllUsers();
     }
@@ -28,9 +29,6 @@ public class UserQuery
     {
         return await userService.getUserById(id);
     }
-
-
-
 }
 
 // [Service] IUserService userService

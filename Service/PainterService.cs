@@ -4,6 +4,7 @@ using MyGraphqlApp.Data;
 using BCrypt.Net;
 using MyGraphqlApp.Validators.UserValidator;
 using MyGraphqlApp.Exception.UserException;
+using MyGraphqlApp.dtos.PainterDto;
 
 namespace MyGraphqlApp.Service.PainterService
 {
@@ -20,7 +21,7 @@ namespace MyGraphqlApp.Service.PainterService
             this.userValidator = userValidator;
         }
 
-        public async Task<Painter> RegisterPainter(Painter painter)
+        public async Task<PainterDto.PainterResponse> RegisterPainter(Painter painter)
         {
 
             // start of the validations logic 
@@ -78,7 +79,24 @@ namespace MyGraphqlApp.Service.PainterService
             userObj.LoginFlag = 0;
             var result2 = await _context.Users.AddAsync(userObj);
             await _context.SaveChangesAsync();
-            return painter;
+            var responseObj = new PainterDto.PainterResponse();
+            responseObj.Id = painter.Id;
+            responseObj.Name = painter.Name;
+            responseObj.UserName = painter.UserName;
+            responseObj.Email = painter.Email;
+            responseObj.PhoneNumber = painter.PhoneNumber;
+            responseObj.Address = painter.Address;
+            responseObj.City = painter.City;
+            responseObj.ServiceTypes = painter.ServiceTypes;
+            responseObj.ExperienceYears = painter.ExperienceYears;
+            responseObj.Rating = painter.Rating;
+            responseObj.PinCodes = painter.PinCodes;
+            responseObj.IsDeleted = painter.IsDeleted;
+            responseObj.CreatedAt = painter.CreatedAt;
+            responseObj.DeletedAt = painter.DeletedAt;
+
+
+            return responseObj;
         }
     }
 

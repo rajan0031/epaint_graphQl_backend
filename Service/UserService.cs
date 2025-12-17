@@ -6,6 +6,8 @@ using MyGraphqlApp.Exception.UserException;
 
 
 
+
+
 namespace MyGraphqlApp.Service
 {
 
@@ -19,15 +21,18 @@ namespace MyGraphqlApp.Service
 
         private ILogger<UserService> _logger;
 
+        private readonly EmailVerification _emailVerification;
 
 
 
-        public UserService(AppDbContext context, JwtUtils jwtUtils, UserValidator userValidator, ILogger<UserService> logger)
+
+        public UserService(AppDbContext context, JwtUtils jwtUtils, UserValidator userValidator, ILogger<UserService> logger, EmailVerification emailVerification)
         {
             _context = context;
             _jwtUtils = jwtUtils;
             this.userValidator = userValidator;
             _logger = logger;
+            _emailVerification = emailVerification;
         }
 
 
@@ -48,9 +53,12 @@ namespace MyGraphqlApp.Service
         public async Task<UserDto.GetAllUserDto> CreateUserAsync(string name, string userName, string email, string Password, string PhoneNumber, int role)
         {
 
+
             Console.WriteLine($"Password received: '{Password}' Length: {Password.Length}");
 
             var user = new User { Name = name, UserName = userName, Email = email, Password = Password, PhoneNumber = PhoneNumber, Role = role };
+
+
 
             if (!userValidator.userNameCheck(userName))
             {
@@ -82,12 +90,30 @@ namespace MyGraphqlApp.Service
             if (!userValidator.phoneNuberCheck(PhoneNumber))
             {
                 throw new UserException("Phone no is not correct...", System.Net.HttpStatusCode.BadRequest);
+
             }
+
+
+
+
+
+            var emailOtp = _emailVerification.GetOtp();
+
+            _emailVerification.SendOtpEmail(email, emailOtp);
+
+            Console.WriteLine("the otp is send successfully" + email + emailOtp);
+
+
+
+
+
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(Password);
             user.LoginFlag = 1;
+            user.EmailOtp = emailOtp;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
             var responseObj = new UserDto.GetAllUserDto();
             responseObj.Id = user.Id;
             responseObj.Name = user.Name;

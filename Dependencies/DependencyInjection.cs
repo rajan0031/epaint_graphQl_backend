@@ -1,7 +1,5 @@
 
 
-using HotChocolate.Authorization;
-
 namespace MyGraphqlApp.Dependencies
 {
 
@@ -37,6 +35,7 @@ namespace MyGraphqlApp.Dependencies
 
             // middlewares and jwtutils
             services.AddScoped<JwtUtils>();
+            services.AddScoped<EmailVerification>();
             services.AddScoped<UserValidator>();
 
             // adding all the graphql 

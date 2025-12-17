@@ -20,6 +20,14 @@ namespace MyGraphqlApp.Model
 
         public int LoginFlag { get; set; }
 
+        public int IsEmailVerified { get; set; } = 0;
+
+        public string? EmailOtp { get; set; } = string.Empty;
+
+        public int IsPhoneNumberVerified { get; set; } = 0;
+
+        public string? PhoneNumberOtp { get; set; } = string.Empty;
+
         public bool IsDeleted { get; set; } = false;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

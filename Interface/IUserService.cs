@@ -15,4 +15,6 @@ public interface IUserService
     public Task<UserDto.LoginResponse> loginUser(UserDto.loginDto loginDto);
 
     public string changePassword(UserDto.ChangePasswordDto changePasswordDto);
+
+    public string verifyEmailAndPhoneOtp(string email, string emailOtp);
 }

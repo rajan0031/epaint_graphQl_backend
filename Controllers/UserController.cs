@@ -92,6 +92,15 @@ namespace MyGraphqlApp.Controllers
         {
             return _userService.changePassword(changePasswordDto);
         }
+
+
+        [HttpPost("verifyotp")]
+        public string verifyEmailAndPhoneOtp(UserDto.EmailPhoneVerifyDto emailPhoneVerifyDto)
+        {
+            return _userService.verifyEmailAndPhoneOtp(emailPhoneVerifyDto.email!, emailPhoneVerifyDto.emailOtp!);
+        }
+
+
     }
 
 }

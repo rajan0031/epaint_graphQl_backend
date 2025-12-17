@@ -59,6 +59,14 @@ namespace MyGraphqlApp.dtos
         }
 
 
+        public class EmailPhoneVerifyDto
+        {
+            public string? email { get; set; } = string.Empty;
+
+            public string? emailOtp { get; set; } = string.Empty;
+        }
+
+
     }
 
 }

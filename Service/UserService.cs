@@ -253,7 +253,27 @@ namespace MyGraphqlApp.Service
             return "the password is changed successfully";
         }
 
-
+        public string verifyEmailAndPhoneOtp(string email, string emailOtp)
+        {
+            try
+            {
+                var userDetails = _context.Users.FirstOrDefault(u => u.Email == email);
+                Console.WriteLine($"the user details is {userDetails?.Name}  {userDetails?.Id} ");
+                if (emailOtp == userDetails?.EmailOtp)
+                {
+                    return "Your email is verified";
+                }
+                else
+                {
+                    throw new UserException("Please enter a valid otp", System.Net.HttpStatusCode.BadRequest);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine($"Verification of the email failed {ex.Message}");
+                throw;
+            }
+        }
     }
 
 }

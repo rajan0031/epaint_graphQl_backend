@@ -31,4 +31,3 @@ public class UserQuery
     }
 }
 
-// [Service] IUserService userService

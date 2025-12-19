@@ -17,4 +17,8 @@ public interface IUserService
     public string changePassword(UserDto.ChangePasswordDto changePasswordDto);
 
     public string verifyEmailAndPhoneOtp(string email, string emailOtp);
+
+    public Task<string> verifyEmailByLink(string email, string emailOtp);
+
+
 }

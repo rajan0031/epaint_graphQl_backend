@@ -108,6 +108,8 @@ namespace MyGraphqlApp.Service
 
 
 
+
+
             user.Password = BCrypt.Net.BCrypt.HashPassword(Password);
             user.LoginFlag = 1;
             user.EmailOtp = emailOtp;
@@ -259,8 +261,19 @@ namespace MyGraphqlApp.Service
             {
                 var userDetails = _context.Users.FirstOrDefault(u => u.Email == email);
                 Console.WriteLine($"the user details is {userDetails?.Name}  {userDetails?.Id} ");
+                if (userDetails == null)
+                {
+                    throw new UserException("the User with email does not exists", System.Net.HttpStatusCode.NotFound);
+                }
+                if (userDetails.IsEmailVerified == 1)
+                {
+                    return $" hii {userDetails.Name} , your Email is Already verified";
+                }
+
                 if (emailOtp == userDetails?.EmailOtp)
                 {
+                    userDetails.IsEmailVerified = 1;
+                    _context.SaveChanges();
                     return "Your email is verified";
                 }
                 else
@@ -274,6 +287,38 @@ namespace MyGraphqlApp.Service
                 throw;
             }
         }
-    }
 
+        public async Task<string> verifyEmailByLink(string email, string emailOtp)
+        {
+
+            try
+            {
+                var userDetails = _context.Users.FirstOrDefault(u => u.Email == email);
+                if (userDetails == null)
+                {
+                    throw new UserException("the User with email does not exists", System.Net.HttpStatusCode.NotFound);
+                }
+                if (userDetails.IsEmailVerified == 1)
+                {
+                    return $" hii {userDetails.Name} , your Email is Already verified";
+                }
+                if (userDetails?.EmailOtp == emailOtp)
+                {
+                    userDetails.IsEmailVerified = 1;
+                    await _context.SaveChangesAsync();
+                    return $"hii {userDetails.Name}! Your  Email is verified";
+                }
+                else
+                {
+                    throw new UserException("the Link is invalid", System.Net.HttpStatusCode.BadRequest);
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine($"the verification failed {ex.Message}");
+                throw;
+            }
+        }
+    }
 }

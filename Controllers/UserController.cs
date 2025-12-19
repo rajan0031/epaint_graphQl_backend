@@ -100,6 +100,12 @@ namespace MyGraphqlApp.Controllers
             return _userService.verifyEmailAndPhoneOtp(emailPhoneVerifyDto.email!, emailPhoneVerifyDto.emailOtp!);
         }
 
+        [HttpGet("verifyotpbylink")]
+        public Task<string> verifyEmailByLink([FromQuery] UserDto.EmailPhoneVerifyDto emailPhoneVerifyDto)
+        {
+            return _userService.verifyEmailByLink(emailPhoneVerifyDto.email!, emailPhoneVerifyDto.emailOtp!);
+        }
+
 
     }
 
